@@ -1,0 +1,8 @@
+{
+  "name": "OmniTool - All-in-One Utility Hub",
+  "description": "A comprehensive suite of online tools for images, PDF, text, encryption, and web development.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}

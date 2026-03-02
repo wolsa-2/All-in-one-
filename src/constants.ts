@@ -1,0 +1,67 @@
+import { 
+  Image as ImageIcon, 
+  FileText, 
+  Share2, 
+  Type, 
+  Lock, 
+  Globe, 
+  MoreHorizontal,
+  Hash,
+  ShieldCheck,
+  FileJson,
+  Code,
+  QrCode,
+  Camera,
+  Scissors,
+  FileArchive,
+  Zap,
+  RefreshCw,
+  CaseSensitive,
+  Binary,
+  Key
+} from 'lucide-react';
+
+export type Category = 'Image' | 'PDF' | 'Social Media' | 'Text & Lists' | 'Encryption' | 'Web' | 'Others';
+
+export interface Tool {
+  id: string;
+  name: string;
+  description: string;
+  category: Category;
+  icon: any;
+  component?: string;
+}
+
+export const TOOLS: Tool[] = [
+  // Image Tools
+  { id: 'image-placeholder', name: 'Image Placeholder', description: 'Generate placeholder images with custom text.', category: 'Image', icon: ImageIcon },
+  { id: 'image-to-base64', name: 'Image to BASE64', description: 'Convert an image to Base64 format online.', category: 'Image', icon: ImageIcon },
+  
+  // PDF Tools
+  { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: FileText },
+  
+  // Social Media Tools
+  { id: 'tweet-generator', name: 'Tweet Generator', description: 'Generate realistic fake tweets for memes.', category: 'Social Media', icon: Share2 },
+  
+  // Text & Lists Tools
+  { id: 'character-counter', name: 'Character Counter', description: 'Count characters, words, and lines in your text.', category: 'Text & Lists', icon: Type },
+  { id: 'case-converter', name: 'Case Converter', description: 'Convert text to uppercase, lowercase, camelCase, etc.', category: 'Text & Lists', icon: CaseSensitive },
+  { id: 'password-generator', name: 'Password Generator', description: 'Generate secure and random passwords.', category: 'Text & Lists', icon: Key },
+  { id: 'bionic-reading', name: 'Bionic Reading', description: 'Convert text to bionic reading format for faster reading.', category: 'Text & Lists', icon: Zap },
+  
+  // Encryption Tools
+  { id: 'base64-codec', name: 'Base64 Encode/Decode', description: 'Encode or decode text to/from Base64.', category: 'Encryption', icon: Lock },
+  { id: 'hash-generator', name: 'Hash Generator', description: 'Generate MD5, SHA-1, SHA-256 hashes.', category: 'Encryption', icon: Hash },
+  
+  // Web Tools
+  { id: 'json-formatter', name: 'JSON Formatter', description: 'Beautify or minify JSON data.', category: 'Web', icon: FileJson },
+  { id: 'html-entities', name: 'HTML Entities', description: 'Encode or decode HTML entities.', category: 'Web', icon: Code },
+  
+  // Others
+  { id: 'qr-generator', name: 'QR Code Generator', description: 'Create custom QR codes for links or text.', category: 'Others', icon: QrCode },
+  { id: 'webcam-test', name: 'Webcam Test', description: 'Test your webcam and microphone.', category: 'Others', icon: Camera },
+];
+
+export const CATEGORIES: Category[] = [
+  'Image', 'PDF', 'Social Media', 'Text & Lists', 'Encryption', 'Web', 'Others'
+];
