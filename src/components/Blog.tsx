@@ -1,45 +1,46 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { Calendar, User, ArrowRight } from 'lucide-react';
-
-const BLOG_POSTS = [
-  {
-    id: 1,
-    title: "How to Optimize Your Images for Web Performance",
-    excerpt: "Learn the best practices for image compression and format selection to make your website lightning fast.",
-    date: "March 1, 2026",
-    author: "Admin",
-    category: "Tutorials"
-  },
-  {
-    id: 2,
-    title: "The Importance of Data Encryption in 2026",
-    excerpt: "Why you should always use SHA-256 and AES for sensitive data. A deep dive into modern security standards.",
-    date: "February 25, 2026",
-    author: "Security Team",
-    category: "Security"
-  },
-  {
-    id: 3,
-    title: "10 Productivity Tools Every Developer Needs",
-    excerpt: "From JSON formatters to character counters, discover the tools that will save you hours of work every week.",
-    date: "February 20, 2026",
-    author: "Dev Lead",
-    category: "Productivity"
-  }
-];
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
+import { BLOG_POSTS } from '../content';
 
 export default function Blog() {
+  const [selectedPost, setSelectedPost] = useState<any>(null);
+
+  if (selectedPost) {
+    return (
+      <div className="max-w-4xl mx-auto space-y-8">
+        <button 
+          onClick={() => setSelectedPost(null)}
+          className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 font-bold transition-colors group"
+        >
+          <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
+          Back to Blog
+        </button>
+
+        <article className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden">
+          <div className="h-64 bg-indigo-50 flex items-center justify-center">
+            <span className="text-indigo-200 font-black text-6xl">ARTICLE</span>
+          </div>
+          <div className="p-10 md:p-16 space-y-8">
+            <div className="flex items-center gap-6 text-sm text-slate-400 font-medium">
+              <span className="flex items-center gap-2"><Calendar size={18} /> {selectedPost.date}</span>
+              <span className="flex items-center gap-2"><User size={18} /> {selectedPost.author}</span>
+              <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-xs font-black uppercase tracking-widest">{selectedPost.category}</span>
+            </div>
+            
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6 blog-content" 
+                 dangerouslySetInnerHTML={{ __html: selectedPost.content }} />
+          </div>
+        </article>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-12">
       <div className="text-center space-y-4">
         <h1 className="text-4xl font-black text-[#1A1A3A]">Our Blog</h1>
         <p className="text-slate-500">Insights, tutorials, and updates from the Allinone.tools team.</p>
-      </div>
-
-      {/* Ad Placeholder: Header */}
-      <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4 text-center text-xs text-slate-400">
-        AD UNIT: HEADER (ca-pub-6718154089288859)
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -63,17 +64,15 @@ export default function Blog() {
               <p className="text-slate-500 text-sm mb-6 flex-1">
                 {post.excerpt}
               </p>
-              <button className="flex items-center gap-2 text-indigo-600 font-bold text-sm hover:gap-3 transition-all">
+              <button 
+                onClick={() => setSelectedPost(post)}
+                className="flex items-center gap-2 text-indigo-600 font-bold text-sm hover:gap-3 transition-all"
+              >
                 Read More <ArrowRight size={16} />
               </button>
             </div>
           </motion.article>
         ))}
-      </div>
-
-      {/* Ad Placeholder: In-content */}
-      <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">
-        AD UNIT: IN-CONTENT (ca-pub-6718154089288859)
       </div>
     </div>
   );

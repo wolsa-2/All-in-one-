@@ -3,6 +3,34 @@ import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
+import { STATIC_PAGES_CONTENT } from './content';
+
+const StructuredData = () => {
+  const schema = {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Allinone.tools",
+    "url": "https://allinone.tools/",
+    "description": "Free online utility tools for developers and designers.",
+    "applicationCategory": "UtilityApplication",
+    "operatingSystem": "Any",
+    "author": {
+      "@type": "Person",
+      "name": "Shivam Kumar"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  };
+
+  return (
+    <script type="application/ld+json">
+      {JSON.stringify(schema)}
+    </script>
+  );
+};
 
 // Tool Components
 import CharacterCounter from './components/tools/CharacterCounter';
@@ -17,6 +45,7 @@ import WebcamTest from './components/tools/WebcamTest';
 import ImagePlaceholder from './components/tools/ImagePlaceholder';
 import ImageToBase64 from './components/tools/ImageToBase64';
 import PdfMetadata from './components/tools/PdfMetadata';
+import JpgToPdf from './components/tools/JpgToPdf';
 import TweetGenerator from './components/tools/TweetGenerator';
 import HtmlEntities from './components/tools/HtmlEntities';
 
@@ -31,6 +60,14 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showCookieConsent, setShowCookieConsent] = useState(() => {
+    return !localStorage.getItem('cookie-consent');
+  });
+
+  const acceptCookies = () => {
+    localStorage.setItem('cookie-consent', 'true');
+    setShowCookieConsent(false);
+  };
 
   const filteredTools = TOOLS.filter(tool => {
     const matchesSearch = tool.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -68,6 +105,7 @@ export default function App() {
       case 'image-placeholder': component = <ImagePlaceholder />; break;
       case 'image-to-base64': component = <ImageToBase64 />; break;
       case 'pdf-metadata': component = <PdfMetadata />; break;
+      case 'jpg-to-pdf': component = <JpgToPdf />; break;
       case 'tweet-generator': component = <TweetGenerator />; break;
       case 'html-entities': component = <HtmlEntities />; break;
       default:
@@ -81,7 +119,7 @@ export default function App() {
     }
 
     return (
-      <ToolLayout title={activeTool.name} description={activeTool.description}>
+      <ToolLayout title={activeTool.name} description={activeTool.description} toolId={activeTool.id}>
         {component}
       </ToolLayout>
     );
@@ -94,38 +132,37 @@ export default function App() {
       case 'blog': return <Blog />;
       case 'about':
         return (
-          <div className="max-w-3xl mx-auto space-y-8 py-12">
-            <h1 className="text-4xl font-black text-[#1A1A3A]">About Us</h1>
-            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
-              <p>Welcome to Allinone.tools, your premier destination for high-quality, free online utilities. Our mission is to simplify your digital life by providing a comprehensive suite of tools that are fast, secure, and easy to use.</p>
-              <p>Founded in 2026, we recognized the need for a centralized hub where developers, designers, and everyday users could access essential tools without the friction of account creation or software installation. Every tool on our platform is built with a privacy-first approach, processing data locally in your browser whenever possible.</p>
-            </div>
+          <div className="max-w-4xl mx-auto space-y-8 py-12">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+                 dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.about }} />
           </div>
         );
       case 'contact':
         return (
           <div className="max-w-3xl mx-auto space-y-8 py-12">
             <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
-            <p className="text-slate-600">Have a suggestion or found a bug? We'd love to hear from you. Reach out to us at <span className="text-indigo-600 font-bold">support@allinone.tools</span>.</p>
+            <p className="text-slate-600 leading-relaxed">
+              Have a suggestion for a new tool? Found a bug that needs fixing? Or just want to say hi? 
+              We'd love to hear from you. Our team is dedicated to making Allinone.tools the best utility hub on the web.
+            </p>
+            <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
+              <p className="text-lg font-bold text-[#1A1A3A]">Email us at:</p>
+              <a href="mailto:support@allinone.tools" className="text-2xl font-black text-indigo-600 hover:underline">support@allinone.tools</a>
+            </div>
           </div>
         );
       case 'privacy':
         return (
-          <div className="max-w-3xl mx-auto space-y-8 py-12">
-            <h1 className="text-4xl font-black text-[#1A1A3A]">Privacy Policy</h1>
-            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
-              <p>At Allinone.tools, we take your privacy seriously. Most of our tools process data locally in your browser, meaning your sensitive information never reaches our servers.</p>
-              <p>We use Google AdSense to serve advertisements, which may use cookies to personalize your experience. For more information, please refer to Google's privacy policy.</p>
-            </div>
+          <div className="max-w-4xl mx-auto space-y-8 py-12">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+                 dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.privacy }} />
           </div>
         );
       case 'terms':
         return (
-          <div className="max-w-3xl mx-auto space-y-8 py-12">
-            <h1 className="text-4xl font-black text-[#1A1A3A]">Terms of Service</h1>
-            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
-              <p>By using Allinone.tools, you agree to our terms of service. Our tools are provided "as is" without any warranties. We are not responsible for any data loss or damages resulting from the use of our services.</p>
-            </div>
+          <div className="max-w-4xl mx-auto space-y-8 py-12">
+            <div className="prose prose-indigo prose-lg max-w-none text-slate-600 leading-relaxed space-y-6" 
+                 dangerouslySetInnerHTML={{ __html: STATIC_PAGES_CONTENT.terms }} />
           </div>
         );
       default:
@@ -192,6 +229,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700">
+      <StructuredData />
       {/* Navigation */}
       <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -275,6 +313,9 @@ export default function App() {
               <p className="text-slate-500 max-w-sm">
                 Allinone.tools is your one-stop shop for all utility needs. We provide free, secure, and easy-to-use tools for everyone. No registration required.
               </p>
+              <p className="text-[10px] text-slate-400 leading-relaxed max-w-xs">
+                Disclaimer: All tools on this site are provided "as is" without warranty of any kind. We do not store any user data processed by our local-first tools.
+              </p>
               <div className="flex gap-4">
                 <button className="p-2 bg-slate-50 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all">
                   <Github size={20} />
@@ -311,6 +352,44 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* Cookie Consent */}
+      <AnimatePresence>
+        {showCookieConsent && (
+          <motion.div 
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            className="fixed bottom-8 left-8 right-8 md:left-auto md:right-8 md:max-w-md bg-white border border-slate-100 shadow-2xl rounded-3xl p-6 z-[60] space-y-4"
+          >
+            <div className="flex items-start gap-4">
+              <div className="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600 shrink-0">
+                <Shield size={20} />
+              </div>
+              <div className="space-y-1">
+                <h4 className="font-bold text-slate-900">Cookie Policy</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  We use cookies to enhance your experience and serve personalized ads via Google AdSense. By using our site, you agree to our use of cookies.
+                </p>
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <button 
+                onClick={acceptCookies}
+                className="flex-1 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all"
+              >
+                Accept All
+              </button>
+              <button 
+                onClick={() => navigateTo('privacy')}
+                className="flex-1 py-2.5 bg-slate-50 text-slate-600 rounded-xl text-sm font-bold hover:bg-slate-100 transition-all"
+              >
+                Learn More
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

@@ -39,6 +39,7 @@ export const TOOLS: Tool[] = [
   
   // PDF Tools
   { id: 'pdf-metadata', name: 'PDF Metadata', description: 'View and edit PDF metadata online.', category: 'PDF', icon: FileText },
+  { id: 'jpg-to-pdf', name: 'JPG to PDF', description: 'Convert multiple JPG images into a single PDF document.', category: 'PDF', icon: FileArchive },
   
   // Social Media Tools
   { id: 'tweet-generator', name: 'Tweet Generator', description: 'Generate realistic fake tweets for memes.', category: 'Social Media', icon: Share2 },
