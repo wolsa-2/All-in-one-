@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, Github, Heart, Zap } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
@@ -20,8 +20,15 @@ import PdfMetadata from './components/tools/PdfMetadata';
 import TweetGenerator from './components/tools/TweetGenerator';
 import HtmlEntities from './components/tools/HtmlEntities';
 
+// Layout & Pages
+import ToolLayout from './components/ToolLayout';
+import Blog from './components/Blog';
+
+type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms';
+
 export default function App() {
   const [activeTool, setActiveTool] = useState<Tool | null>(null);
+  const [currentPage, setCurrentPage] = useState<Page>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -37,87 +44,92 @@ export default function App() {
     return acc;
   }, {} as Record<Category, Tool[]>);
 
+  const navigateTo = (page: Page) => {
+    setCurrentPage(page);
+    setActiveTool(null);
+    setIsMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+
   const renderTool = () => {
     if (!activeTool) return null;
     
+    let component = null;
     switch (activeTool.id) {
-      case 'character-counter': return <CharacterCounter />;
-      case 'password-generator': return <PasswordGenerator />;
-      case 'base64-codec': return <Base64Codec />;
-      case 'json-formatter': return <JsonFormatter />;
-      case 'qr-generator': return <QrGenerator />;
-      case 'case-converter': return <CaseConverter />;
-      case 'hash-generator': return <HashGenerator />;
-      case 'bionic-reading': return <BionicReading />;
-      case 'webcam-test': return <WebcamTest />;
-      case 'image-placeholder': return <ImagePlaceholder />;
-      case 'image-to-base64': return <ImageToBase64 />;
-      case 'pdf-metadata': return <PdfMetadata />;
-      case 'tweet-generator': return <TweetGenerator />;
-      case 'html-entities': return <HtmlEntities />;
+      case 'character-counter': component = <CharacterCounter />; break;
+      case 'password-generator': component = <PasswordGenerator />; break;
+      case 'base64-codec': component = <Base64Codec />; break;
+      case 'json-formatter': component = <JsonFormatter />; break;
+      case 'qr-generator': component = <QrGenerator />; break;
+      case 'case-converter': component = <CaseConverter />; break;
+      case 'hash-generator': component = <HashGenerator />; break;
+      case 'bionic-reading': component = <BionicReading />; break;
+      case 'webcam-test': component = <WebcamTest />; break;
+      case 'image-placeholder': component = <ImagePlaceholder />; break;
+      case 'image-to-base64': component = <ImageToBase64 />; break;
+      case 'pdf-metadata': component = <PdfMetadata />; break;
+      case 'tweet-generator': component = <TweetGenerator />; break;
+      case 'html-entities': component = <HtmlEntities />; break;
       default:
-        return (
+        component = (
           <div className="flex flex-col items-center justify-center h-64 text-center">
             <div className="p-4 bg-amber-50 text-amber-600 rounded-lg border border-amber-100 mb-4">
               This tool is currently under development.
             </div>
-            <button 
-              onClick={() => setActiveTool(null)}
-              className="text-indigo-600 hover:underline"
-            >
-              Go back to tools
-            </button>
           </div>
         );
     }
+
+    return (
+      <ToolLayout title={activeTool.name} description={activeTool.description}>
+        {component}
+      </ToolLayout>
+    );
   };
 
-  return (
-    <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700">
-      {/* Navigation */}
-      <nav className="bg-white border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
-            <div className="flex items-center gap-3 cursor-pointer" onClick={() => {setActiveTool(null); setSearchQuery('');}}>
-              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-                <Zap size={28} fill="currentColor" />
-              </div>
-              <span className="text-2xl font-black tracking-tight text-[#1A1A3A]">Allinone.tools</span>
-            </div>
+  const renderPage = () => {
+    if (activeTool) return renderTool();
 
-            <div className="hidden md:flex items-center flex-1 max-w-md mx-12">
-              <div className="relative w-full">
-                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
-                <input 
-                  type="text"
-                  placeholder="Search for a tool..."
-                  className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
+    switch (currentPage) {
+      case 'blog': return <Blog />;
+      case 'about':
+        return (
+          <div className="max-w-3xl mx-auto space-y-8 py-12">
+            <h1 className="text-4xl font-black text-[#1A1A3A]">About Us</h1>
+            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
+              <p>Welcome to Allinone.tools, your premier destination for high-quality, free online utilities. Our mission is to simplify your digital life by providing a comprehensive suite of tools that are fast, secure, and easy to use.</p>
+              <p>Founded in 2026, we recognized the need for a centralized hub where developers, designers, and everyday users could access essential tools without the friction of account creation or software installation. Every tool on our platform is built with a privacy-first approach, processing data locally in your browser whenever possible.</p>
             </div>
-
-            <div className="hidden md:flex items-center gap-6">
-              <button className="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">Blog</button>
-              <button className="text-sm font-bold text-slate-500 hover:text-indigo-600 transition-colors">About</button>
-              <button className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all">
-                Suggest a Tool
-              </button>
-            </div>
-
-            <button 
-              className="md:hidden p-2 text-slate-600"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
           </div>
-        </div>
-      </nav>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {!activeTool ? (
+        );
+      case 'contact':
+        return (
+          <div className="max-w-3xl mx-auto space-y-8 py-12">
+            <h1 className="text-4xl font-black text-[#1A1A3A]">Contact Us</h1>
+            <p className="text-slate-600">Have a suggestion or found a bug? We'd love to hear from you. Reach out to us at <span className="text-indigo-600 font-bold">support@allinone.tools</span>.</p>
+          </div>
+        );
+      case 'privacy':
+        return (
+          <div className="max-w-3xl mx-auto space-y-8 py-12">
+            <h1 className="text-4xl font-black text-[#1A1A3A]">Privacy Policy</h1>
+            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
+              <p>At Allinone.tools, we take your privacy seriously. Most of our tools process data locally in your browser, meaning your sensitive information never reaches our servers.</p>
+              <p>We use Google AdSense to serve advertisements, which may use cookies to personalize your experience. For more information, please refer to Google's privacy policy.</p>
+            </div>
+          </div>
+        );
+      case 'terms':
+        return (
+          <div className="max-w-3xl mx-auto space-y-8 py-12">
+            <h1 className="text-4xl font-black text-[#1A1A3A]">Terms of Service</h1>
+            <div className="prose prose-slate max-w-none text-slate-600 leading-relaxed space-y-4">
+              <p>By using Allinone.tools, you agree to our terms of service. Our tools are provided "as is" without any warranties. We are not responsible for any data loss or damages resulting from the use of our services.</p>
+            </div>
+          </div>
+        );
+      default:
+        return (
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -129,6 +141,11 @@ export default function App() {
               <p className="text-slate-500 font-medium">Free online tools for everyone. No sign-up required.</p>
             </div>
 
+            {/* Ad Placeholder: Header */}
+            <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4 text-center text-xs text-slate-400">
+              AD UNIT: HEADER (ca-pub-6718154089288859)
+            </div>
+
             {/* Categorized Grid */}
             {Object.entries(toolsByCategory).map(([category, tools]) => (
               <div key={category} className="space-y-8">
@@ -138,7 +155,7 @@ export default function App() {
                   <p className="text-slate-400 text-sm">All the {category.toLowerCase()} tools that you need in the same website.</p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-6 max-w-5xl mx-auto">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-5xl mx-auto">
                   {tools.map((tool) => (
                     <motion.div
                       key={tool.id}
@@ -163,45 +180,89 @@ export default function App() {
                 </div>
               </div>
             ))}
-          </motion.div>
-        ) : (
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="max-w-4xl mx-auto"
-          >
-            <button 
-              onClick={() => setActiveTool(null)}
-              className="flex items-center gap-2 text-slate-500 hover:text-indigo-600 mb-8 font-medium transition-colors group"
-            >
-              <div className="p-2 bg-white border border-slate-200 rounded-lg group-hover:border-indigo-200 group-hover:bg-indigo-50 transition-all">
-                <X size={16} />
-              </div>
-              Back to all tools
-            </button>
 
-            <div className="bg-white rounded-3xl border border-slate-200 shadow-xl overflow-hidden">
-              <div className="p-8 border-b border-slate-100 bg-slate-50/50">
-                <div className="flex items-center gap-4">
-                  <div className="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
-                    <activeTool.icon size={28} />
-                  </div>
-                  <div>
-                    <h2 className="text-2xl font-bold text-slate-900">{activeTool.name}</h2>
-                    <p className="text-slate-500">{activeTool.description}</p>
-                  </div>
-                </div>
+            {/* Ad Placeholder: Footer */}
+            <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">
+              AD UNIT: IN-CONTENT (ca-pub-6718154089288859)
+            </div>
+          </motion.div>
+        );
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#F8F9FF] text-[#1A1A3A] font-sans selection:bg-indigo-100 selection:text-indigo-700">
+      {/* Navigation */}
+      <nav className="bg-white border-b border-slate-100 sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-20 items-center">
+            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigateTo('home')}>
+              <div className="w-12 h-12 bg-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-100">
+                <Zap size={28} fill="currentColor" />
               </div>
-              <div className="p-8">
-                {renderTool()}
+              <span className="text-2xl font-black tracking-tight text-[#1A1A3A]">Allinone.tools</span>
+            </div>
+
+            <div className="hidden md:flex items-center flex-1 max-w-md mx-12">
+              <div className="relative w-full">
+                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" size={18} />
+                <input 
+                  type="text"
+                  placeholder="Search for a tool..."
+                  className="w-full pl-11 pr-4 py-3 bg-[#F8F9FF] border border-slate-100 rounded-xl focus:ring-2 focus:ring-indigo-500 outline-none transition-all text-sm"
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    if (currentPage !== 'home') navigateTo('home');
+                  }}
+                />
               </div>
+            </div>
+
+            <div className="hidden md:flex items-center gap-6">
+              <button onClick={() => navigateTo('home')} className={cn("text-sm font-bold transition-colors", currentPage === 'home' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Home</button>
+              <button onClick={() => navigateTo('blog')} className={cn("text-sm font-bold transition-colors", currentPage === 'blog' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Blog</button>
+              <button onClick={() => navigateTo('about')} className={cn("text-sm font-bold transition-colors", currentPage === 'about' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>About</button>
+              <button onClick={() => navigateTo('contact')} className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all">
+                Contact Us
+              </button>
+            </div>
+
+            <button 
+              className="md:hidden p-2 text-slate-600"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
+        </div>
+      </nav>
+
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="md:hidden bg-white border-b border-slate-200 px-4 py-6 space-y-4 shadow-xl fixed top-20 left-0 right-0 z-40"
+          >
+            <div className="flex flex-col gap-2">
+              <button onClick={() => navigateTo('home')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Home</button>
+              <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Blog</button>
+              <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">About</button>
+              <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Contact</button>
             </div>
           </motion.div>
         )}
+      </AnimatePresence>
+
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {renderPage()}
       </main>
 
       {/* Footer */}
-      <footer className="bg-white border-t border-slate-200 py-12 mt-20">
+      <footer className="bg-white border-t border-slate-100 py-16 mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
             <div className="col-span-1 md:col-span-2 space-y-6">
@@ -222,34 +283,27 @@ export default function App() {
             </div>
             
             <div>
-              <h4 className="font-bold text-slate-900 mb-6">Categories</h4>
+              <h4 className="font-bold text-slate-900 mb-6">Quick Links</h4>
               <ul className="space-y-4">
-                {CATEGORIES.slice(0, 5).map(cat => (
-                  <li key={cat}>
-                    <button 
-                      onClick={() => {setActiveTool(null); setSearchQuery(''); window.scrollTo(0,0);}}
-                      className="text-slate-500 hover:text-indigo-600 transition-colors"
-                    >
-                      {cat}
-                    </button>
-                  </li>
-                ))}
+                <li><button onClick={() => navigateTo('home')} className="text-slate-500 hover:text-indigo-600 transition-colors">Home</button></li>
+                <li><button onClick={() => navigateTo('blog')} className="text-slate-500 hover:text-indigo-600 transition-colors">Blog</button></li>
+                <li><button onClick={() => navigateTo('about')} className="text-slate-500 hover:text-indigo-600 transition-colors">About Us</button></li>
+                <li><button onClick={() => navigateTo('contact')} className="text-slate-500 hover:text-indigo-600 transition-colors">Contact Us</button></li>
               </ul>
             </div>
 
             <div>
               <h4 className="font-bold text-slate-900 mb-6">Legal</h4>
               <ul className="space-y-4 text-slate-500">
-                <li><button className="hover:text-indigo-600 transition-colors">Privacy Policy</button></li>
-                <li><button className="hover:text-indigo-600 transition-colors">Terms of Service</button></li>
-                <li><button className="hover:text-indigo-600 transition-colors">Cookie Policy</button></li>
+                <li><button onClick={() => navigateTo('privacy')} className="hover:text-indigo-600 transition-colors">Privacy Policy</button></li>
+                <li><button onClick={() => navigateTo('terms')} className="hover:text-indigo-600 transition-colors">Terms of Service</button></li>
               </ul>
             </div>
           </div>
           
           <div className="mt-12 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-slate-400 text-sm">
-              © 2026 OmniTool. All rights reserved.
+              © 2026 Allinone.tools. All rights reserved.
             </p>
             <div className="flex items-center gap-1 text-slate-400 text-sm">
               Made with <Heart size={14} className="text-rose-500 fill-rose-500" /> for the community.
