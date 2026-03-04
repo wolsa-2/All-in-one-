@@ -1,0 +1,25 @@
+import { GoogleGenAI } from "@google/genai";
+
+async function generateBlogImages() {
+  const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+  
+  const topics = [
+    {
+      id: 1,
+      title: "10 Productivity Tools Every Developer Needs in 2026",
+      prompt: "A professional, clean, and modern blog header image for an article titled '10 Productivity Tools Every Developer Needs in 2026'. Tech-themed, featuring a futuristic workspace, glowing code on multiple screens, sleek hardware, and a sense of high efficiency. 16:9 aspect ratio, high quality, minimalist aesthetic."
+    },
+    {
+      id: 2,
+      title: "The Importance of Data Encryption and Privacy in the Digital Age",
+      prompt: "A professional, clean, and modern blog header image for an article titled 'The Importance of Data Encryption and Privacy in the Digital Age'. Tech-themed, featuring abstract digital security concepts, glowing locks, encrypted data streams, and a sense of trust and protection. 16:9 aspect ratio, high quality, dark mode aesthetic with blue and emerald accents."
+    },
+    {
+      id: 3,
+      title: "How to Optimize Website Images for Lightning Fast Performance",
+      prompt: "A professional, clean, and modern blog header image for an article titled 'How to Optimize Website Images for Lightning Fast Performance'. Tech-themed, featuring concepts of speed, optimization, and high-quality visuals. Abstract representation of fast-loading images, speed lines, and performance metrics. 16:9 aspect ratio, high quality, vibrant and energetic aesthetic."
+    }
+  ];
+
+  // This is just a plan. I will execute the generation using the tool.
+}

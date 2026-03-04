@@ -54,6 +54,7 @@ export const BLOG_POSTS = [
     author: "Shivam Kumar",
     category: "Productivity",
     excerpt: "Discover the essential utilities that are transforming developer workflows in 2026. From AI-assisted coding to advanced data formatters.",
+    image: "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1200&q=80",
     content: `
       <h1>10 Productivity Tools Every Developer Needs in 2026</h1>
       <p>The landscape of software development is evolving at an unprecedented pace. As we move through 2026, the tools we use are becoming smarter, more integrated, and more focused on developer experience. To stay competitive and maintain a high level of output, developers must curate a toolkit that minimizes friction and maximizes creativity. Here are the top 10 productivity tools that every developer should have in their arsenal this year.</p>
@@ -99,6 +100,7 @@ export const BLOG_POSTS = [
     author: "Shivam Kumar",
     category: "Security",
     excerpt: "Why encryption is no longer optional. Learn how to protect your data and why privacy-first tools are the future of the web.",
+    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1200&q=80",
     content: `
       <h1>The Importance of Data Encryption and Privacy in the Digital Age</h1>
       <p>In 2026, data is the most valuable currency on the planet. From our personal conversations and financial records to our browsing habits and professional secrets, almost every aspect of our lives is digitized. This digital transformation has brought immense convenience, but it has also exposed us to unprecedented risks. Data encryption and privacy are no longer just technical concerns for IT professionals; they are fundamental human rights in the digital age.</p>
@@ -127,6 +129,7 @@ export const BLOG_POSTS = [
     author: "Shivam Kumar",
     category: "Performance",
     excerpt: "Images are often the biggest bottleneck for web performance. Learn the latest techniques for optimization in 2026.",
+    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
     content: `
       <h1>How to Optimize Website Images for Lightning Fast Performance</h1>
       <p>In the world of web development, every millisecond counts. Research consistently shows that users will abandon a site if it takes more than a few seconds to load. While there are many factors that contribute to page speed, images are almost always the biggest culprit. Large, unoptimized images can bloat your page size, increase load times, and negatively impact your SEO rankings. In 2026, image optimization is a critical skill for any web professional.</p>

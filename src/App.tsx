@@ -52,6 +52,7 @@ import HtmlEntities from './components/tools/HtmlEntities';
 // Layout & Pages
 import ToolLayout from './components/ToolLayout';
 import Blog from './components/Blog';
+import { Marquee } from './components/Marquee';
 
 type Page = 'home' | 'blog' | 'about' | 'contact' | 'privacy' | 'terms';
 
@@ -147,7 +148,7 @@ export default function App() {
             </p>
             <div className="p-8 bg-white rounded-3xl border border-slate-100 shadow-sm">
               <p className="text-lg font-bold text-[#1A1A3A]">Email us at:</p>
-              <a href="mailto:support@allinone.tools" className="text-2xl font-black text-indigo-600 hover:underline">support@allinone.tools</a>
+              <a href="mailto:b605649@gmail.com" className="text-2xl font-black text-indigo-600 hover:underline">b605649@gmail.com</a>
             </div>
           </div>
         );
@@ -178,9 +179,31 @@ export default function App() {
               <p className="text-slate-500 font-medium">Free online tools for everyone. No sign-up required.</p>
             </div>
 
-            {/* Ad Placeholder: Header */}
-            <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-4 text-center text-xs text-slate-400">
-              AD UNIT: HEADER (ca-pub-6718154089288859)
+            {/* Marquee Section */}
+            <div className="space-y-8">
+              <div className="text-center space-y-2">
+                <span className="text-xs font-black uppercase tracking-[0.2em] text-indigo-500">Quick Access</span>
+                <h2 className="text-2xl font-black text-[#1A1A3A]">Featured Tools</h2>
+              </div>
+              <div className="space-y-4">
+                <Marquee 
+                  items={TOOLS.slice(0, Math.ceil(TOOLS.length / 2))} 
+                  onItemClick={(tool) => {
+                    setActiveTool(tool);
+                    window.scrollTo(0, 0);
+                  }} 
+                  speed={30}
+                />
+                <Marquee 
+                  items={TOOLS.slice(Math.ceil(TOOLS.length / 2))} 
+                  onItemClick={(tool) => {
+                    setActiveTool(tool);
+                    window.scrollTo(0, 0);
+                  }} 
+                  direction="right"
+                  speed={35}
+                />
+              </div>
             </div>
 
             {/* Categorized Grid */}
@@ -217,11 +240,6 @@ export default function App() {
                 </div>
               </div>
             ))}
-
-            {/* Ad Placeholder: Footer */}
-            <div className="bg-slate-50 border border-dashed border-slate-200 rounded-xl p-8 text-center text-xs text-slate-400">
-              AD UNIT: IN-CONTENT (ca-pub-6718154089288859)
-            </div>
           </motion.div>
         );
     }

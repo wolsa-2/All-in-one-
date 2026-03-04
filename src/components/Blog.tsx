@@ -18,8 +18,19 @@ export default function Blog() {
         </button>
 
         <article className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden">
-          <div className="h-64 bg-indigo-50 flex items-center justify-center">
-            <span className="text-indigo-200 font-black text-6xl">ARTICLE</span>
+          <div className="h-64 bg-indigo-50 overflow-hidden">
+            {selectedPost.image ? (
+              <img 
+                src={selectedPost.image} 
+                alt={selectedPost.title} 
+                className="w-full h-full object-cover"
+                referrerPolicy="no-referrer"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center">
+                <span className="text-indigo-200 font-black text-6xl">ARTICLE</span>
+              </div>
+            )}
           </div>
           <div className="p-10 md:p-16 space-y-8">
             <div className="flex items-center gap-6 text-sm text-slate-400 font-medium">
@@ -50,8 +61,19 @@ export default function Blog() {
             whileHover={{ y: -5 }}
             className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col"
           >
-            <div className="h-48 bg-indigo-50 flex items-center justify-center">
-              <span className="text-indigo-200 font-black text-4xl">BLOG</span>
+            <div className="h-48 bg-indigo-50 overflow-hidden">
+              {post.image ? (
+                <img 
+                  src={post.image} 
+                  alt={post.title} 
+                  className="w-full h-full object-cover"
+                  referrerPolicy="no-referrer"
+                />
+              ) : (
+                <div className="w-full h-full flex items-center justify-center">
+                  <span className="text-indigo-200 font-black text-4xl">BLOG</span>
+                </div>
+              )}
             </div>
             <div className="p-6 flex-1 flex flex-col">
               <div className="flex items-center gap-4 text-xs text-slate-400 mb-4">
