@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, ArrowRight, ArrowLeft } from 'lucide-react';
-import { BLOG_POSTS } from '../content';
+import { BLOG_POSTS } from '../blogData';
 
 export default function Blog() {
   const [selectedPost, setSelectedPost] = useState<any>(null);
