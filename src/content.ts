@@ -159,7 +159,7 @@ export const STATIC_PAGES_CONTENT = {
   privacy: `
     <h1>Privacy Policy</h1>
     <p>Last Updated: March 3, 2026</p>
-    <p>At Allinone.tools, accessible from all-in-one-ai9p.vercel.app, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Allinone.tools and how we use it.</p>
+    <p>At Allinone.tools, accessible from allinone.tools, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Allinone.tools and how we use it.</p>
     
     <h2>Local Data Processing</h2>
     <p>We take a unique approach to privacy. Most of the utility tools provided on our website (such as PDF Metadata analysis, Base64 encoding, and Hash generation) process your data locally within your web browser. This means that your sensitive files and strings are never uploaded to our servers. Your data remains on your device, ensuring the highest level of privacy and security.</p>
@@ -177,7 +177,7 @@ export const STATIC_PAGES_CONTENT = {
   terms: `
     <h1>Terms of Service</h1>
     <p>Welcome to Allinone.tools!</p>
-    <p>These terms and conditions outline the rules and regulations for the use of Allinone.tools's Website, located at all-in-one-ai9p.vercel.app.</p>
+    <p>These terms and conditions outline the rules and regulations for the use of Allinone.tools's Website, located at allinone.tools.</p>
     
     <h2>Acceptance of Terms</h2>
     <p>By accessing this website, we assume you accept these terms and conditions. Do not continue to use Allinone.tools if you do not agree to take all of the terms and conditions stated on this page.</p>
