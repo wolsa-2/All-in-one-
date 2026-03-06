@@ -1,17 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText, LogIn, LogOut, User } from 'lucide-react';
+import { Search, Menu, X, Github, Heart, Zap, Home, BookOpen, Info, Mail, Shield, FileText } from 'lucide-react';
 import { TOOLS, CATEGORIES, Category, Tool } from './constants';
 import { cn } from './lib/utils';
 import { motion, AnimatePresence } from 'motion/react';
 import { STATIC_PAGES_CONTENT } from './content';
 import AdUnit from './components/AdUnit';
-
-interface UserData {
-  id: string;
-  email: string;
-  name: string;
-  picture: string;
-}
 
 const StructuredData = () => {
   const schema = {
@@ -69,58 +62,14 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [searchQuery, setSearchQuery] = useState('');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<UserData | null>(null);
-  const [isLoadingUser, setIsLoadingUser] = useState(true);
   const [showCookieConsent, setShowCookieConsent] = useState(() => {
     return !localStorage.getItem('cookie-consent');
   });
 
   useEffect(() => {
-    checkUser();
-    
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'OAUTH_AUTH_SUCCESS') {
-        checkUser();
-      }
-    };
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
-  }, []);
-
-  const checkUser = async () => {
-    try {
-      const res = await fetch('/api/auth/me');
-      if (res.ok) {
-        const data = await res.json();
-        setUser(data.user);
-      } else {
-        setUser(null);
-      }
-    } catch (err) {
-      setUser(null);
-    } finally {
-      setIsLoadingUser(false);
-    }
-  };
-
-  const handleLogin = async () => {
-    try {
-      const res = await fetch('/api/auth/url');
-      const { url } = await res.json();
-      window.open(url, 'google_login', 'width=500,height=600');
-    } catch (err) {
-      console.error('Login failed', err);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch('/api/auth/logout', { method: 'POST' });
-      setUser(null);
-    } catch (err) {
-      console.error('Logout failed', err);
-    }
-  };
+    // Scroll to top on page change
+    window.scrollTo(0, 0);
+  }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
     localStorage.setItem('cookie-consent', 'true');
@@ -340,30 +289,9 @@ export default function App() {
               <button onClick={() => navigateTo('home')} className={cn("text-sm font-bold transition-colors", currentPage === 'home' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Home</button>
               <button onClick={() => navigateTo('blog')} className={cn("text-sm font-bold transition-colors", currentPage === 'blog' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>Blog</button>
               <button onClick={() => navigateTo('about')} className={cn("text-sm font-bold transition-colors", currentPage === 'about' ? "text-indigo-600" : "text-slate-500 hover:text-indigo-600")}>About</button>
-              
-              {user ? (
-                <div className="flex items-center gap-4 pl-4 border-l border-slate-100">
-                  <div className="flex items-center gap-2">
-                    <img src={user.picture} alt={user.name} className="w-8 h-8 rounded-full border border-slate-200" referrerPolicy="no-referrer" />
-                    <span className="text-sm font-bold text-slate-700 hidden lg:block">{user.name.split(' ')[0]}</span>
-                  </div>
-                  <button 
-                    onClick={handleLogout}
-                    className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
-                    title="Logout"
-                  >
-                    <LogOut size={20} />
-                  </button>
-                </div>
-              ) : (
-                <button 
-                  onClick={handleLogin}
-                  className="flex items-center gap-2 px-5 py-2.5 bg-white border border-slate-200 text-slate-700 rounded-xl text-sm font-bold shadow-sm hover:border-indigo-200 hover:bg-indigo-50 transition-all"
-                >
-                  <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
-                  Continue with Google
-                </button>
-              )}
+              <button onClick={() => navigateTo('contact')} className="px-5 py-2.5 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-100 hover:bg-indigo-500 transition-all">
+                Contact Us
+              </button>
             </div>
 
             <button 
@@ -390,31 +318,6 @@ export default function App() {
               <button onClick={() => navigateTo('blog')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Blog</button>
               <button onClick={() => navigateTo('about')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">About</button>
               <button onClick={() => navigateTo('contact')} className="p-4 text-left font-bold text-slate-600 hover:bg-slate-50 rounded-xl">Contact</button>
-              
-              <div className="pt-4 border-t border-slate-100">
-                {user ? (
-                  <div className="flex items-center justify-between p-4 bg-slate-50 rounded-xl">
-                    <div className="flex items-center gap-3">
-                      <img src={user.picture} alt={user.name} className="w-10 h-10 rounded-full border border-slate-200" referrerPolicy="no-referrer" />
-                      <div>
-                        <p className="text-sm font-bold text-slate-900">{user.name}</p>
-                        <p className="text-xs text-slate-500">{user.email}</p>
-                      </div>
-                    </div>
-                    <button onClick={handleLogout} className="p-2 text-rose-600 hover:bg-rose-100 rounded-lg transition-all">
-                      <LogOut size={20} />
-                    </button>
-                  </div>
-                ) : (
-                  <button 
-                    onClick={handleLogin}
-                    className="w-full flex items-center justify-center gap-3 p-4 bg-white border border-slate-200 text-slate-700 rounded-xl font-bold shadow-sm hover:bg-slate-50 transition-all"
-                  >
-                    <img src="https://www.google.com/favicon.ico" alt="Google" className="w-5 h-5" />
-                    Continue with Google
-                  </button>
-                )}
-              </div>
             </div>
           </motion.div>
         )}
