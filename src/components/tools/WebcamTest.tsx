@@ -70,6 +70,11 @@ export default function WebcamTest() {
           <p className="text-slate-500 mt-2 mb-8 max-w-xs text-center">
             We'll need permission to access your camera and microphone for this test.
           </p>
+          <div className="bg-amber-50 border border-amber-100 p-4 rounded-2xl mb-8 max-w-sm">
+            <p className="text-xs text-amber-700 font-medium leading-relaxed">
+              <strong>Tip:</strong> If the camera doesn't start, please click the <strong>lock icon</strong> in your browser address bar and enable camera/microphone permissions for this site.
+            </p>
+          </div>
           <button
             onClick={startTest}
             className="px-8 py-4 bg-indigo-600 text-white rounded-2xl font-bold shadow-xl shadow-indigo-100 hover:bg-indigo-500 transition-all transform hover:scale-105"

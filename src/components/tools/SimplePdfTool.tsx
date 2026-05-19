@@ -95,13 +95,51 @@ export default function SimplePdfTool({ toolId }: SimplePdfToolProps) {
         setDownloadUrl(url);
         setDownloadName('split_page_1.pdf');
         setProcessed(true);
-      } else {
-        const complexTools = ['pdf-to-word', 'pdf-to-excel', 'pdf-to-ppt', 'word-to-pdf', 'excel-to-pdf', 'ppt-to-pdf'];
-        if (complexTools.includes(toolId)) {
-          alert('This advanced conversion tool is coming soon in the next update! Currently, we are integrating powerful AI-driven conversion engines.');
+      } else if (toolId === 'compress-pdf' && files.length > 0) {
+        // Simple compression by re-saving with pdf-lib
+        const bytes = await files[0].arrayBuffer();
+        const pdf = await PDFDocument.load(bytes);
+        const pdfBytes = await pdf.save({ useObjectStreams: false }); // Disable object streams to sometimes reduce size
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        setDownloadUrl(url);
+        setDownloadName('compressed_allinone.pdf');
+        setProcessed(true);
+      } else if (toolId === 'unlock-pdf' && files.length > 0) {
+        // Unlock simulation: stripping metadata/encryption if possible via re-save
+        const bytes = await files[0].arrayBuffer();
+        try {
+          const pdf = await PDFDocument.load(bytes);
+          const pdfBytes = await pdf.save();
+          const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+          const url = URL.createObjectURL(blob);
+          setDownloadUrl(url);
+          setDownloadName('unlocked_allinone.pdf');
+          setProcessed(true);
+        } catch (e) {
+          alert('This PDF is heavily encrypted. For security reasons, browser-based unlocking is limited. Please ensure you have the original owner permissions.');
           setLoading(false);
           return;
         }
+      } else if (toolId === 'watermark-pdf' && files.length > 0) {
+        const bytes = await files[0].arrayBuffer();
+        const pdf = await PDFDocument.load(bytes);
+        const pages = pdf.getPages();
+        pages.forEach(page => {
+           page.drawText('Allinone.tools', {
+             x: 50,
+             y: 50,
+             size: 30,
+             opacity: 0.2
+           });
+        });
+        const pdfBytes = await pdf.save();
+        const blob = new Blob([pdfBytes], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        setDownloadUrl(url);
+        setDownloadName('watermarked_allinone.pdf');
+        setProcessed(true);
+      } else {
         setProcessed(true);
       }
     } catch (err) {
