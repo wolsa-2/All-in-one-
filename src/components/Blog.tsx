@@ -18,11 +18,13 @@ export default function Blog() {
         </button>
 
         <article className="bg-white rounded-[2.5rem] border border-slate-100 shadow-xl overflow-hidden">
-          <div className="h-64 bg-indigo-50 overflow-hidden">
+          <div className="aspect-video bg-indigo-50 overflow-hidden relative">
             {selectedPost.image ? (
               <img 
                 src={selectedPost.image} 
                 alt={selectedPost.title} 
+                width="800"
+                height="450"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
               />
@@ -61,11 +63,13 @@ export default function Blog() {
             whileHover={{ y: -5 }}
             className="bg-white rounded-3xl border border-slate-100 shadow-sm overflow-hidden flex flex-col"
           >
-            <div className="h-48 bg-indigo-50 overflow-hidden">
+            <div className="aspect-video bg-indigo-50 overflow-hidden relative">
               {post.image ? (
                 <img 
                   src={post.image} 
                   alt={post.title} 
+                  width="400"
+                  height="225"
                   className="w-full h-full object-cover"
                   referrerPolicy="no-referrer"
                 />

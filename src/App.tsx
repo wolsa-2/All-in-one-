@@ -84,6 +84,18 @@ export default function App() {
   useEffect(() => {
     // Scroll to top on page change
     window.scrollTo(0, 0);
+
+    // Dynamic Title Update
+    if (activeTool) {
+      document.title = `${activeTool.name} | Allinone.tools`;
+    } else if (currentPage === 'blog') {
+      document.title = 'SEO & Productivity Blog | Allinone.tools';
+    } else if (currentPage !== 'home') {
+      const title = currentPage.charAt(0).toUpperCase() + currentPage.slice(1);
+      document.title = `${title} | Allinone.tools`;
+    } else {
+      document.title = 'Allinone.tools | Free Online Utility Hub & Privacy-First Tools';
+    }
   }, [currentPage, activeTool]);
 
   const acceptCookies = () => {
@@ -540,6 +552,8 @@ export default function App() {
                           className="w-full h-full"
                           src={`https://www.youtube.com/embed/${video.id}`} 
                           title={`${video.title} - Allinone.tools Tutorial`}
+                          width="560"
+                          height="315"
                           frameBorder="0" 
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                           referrerPolicy="strict-origin-when-cross-origin" 
@@ -604,6 +618,8 @@ export default function App() {
                 <img 
                   src="/vite.svg" 
                   alt="Allinone.tools Logo" 
+                  width="32"
+                  height="32"
                   className="w-8 h-8"
                   referrerPolicy="no-referrer"
                 />
