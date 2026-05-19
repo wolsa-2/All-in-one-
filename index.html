@@ -3,26 +3,53 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#4F46E5" />
+    
+    <!-- Fix Issue 3: Preconnect to CDNs & Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com">
+    
+    <!-- Dynamic SEO and Open Graph Updates -->
+    <script>
+      (function() {
+        const hostname = window.location.hostname;
+        if (hostname.includes('vercel.app') && !hostname.includes('allinone.tools')) {
+          const meta = document.createElement('meta');
+          meta.name = 'robots';
+          meta.content = 'noindex, nofollow';
+          document.head.appendChild(meta);
+        }
+      })();
+    </script>
     <title>Allinone.tools | Free Online Utility Hub & Privacy-First Tools</title>
-    <meta name="description" content="Free All-in-One online utility tools. Professional suite for PDF management, Image editing, and Text processing. 100% secure, local-first, and no sign-up required." />
+    <meta name="description" content="Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing with no sign-up required." />
     <meta name="keywords" content="free online utility tools, pdf editor, image resizer, text case converter, qr code generator, secure developer tools, privacy tools" />
     <link rel="canonical" href="https://allinone.tools/" />
     <link rel="alternate" hreflang="x-default" href="https://allinone.tools/" />
     
-    <!-- Favicon Configuration -->
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="manifest" href="/site.webmanifest" />
+    <!-- Fix Issue 5: Complete Favicon Set -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
     
     <!-- Fallback SVG Favicon -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%234F46E5'/%3E%3Cpath d='M45 25L35 60H45L40 85L65 40H55L60 25H45Z' fill='white'/%3E%3C/svg%3E" />
     
-    <meta name="theme-color" content="#4F46E5" />
     <meta name="author" content="Allinone.tools Team" />
     <meta name="google-adsense-account" content="ca-pub-6718154089288859">
     <meta name="google-site-verification" content="ZdKfWcQeANlTkKwk32waR9kgXB0LjERYA7KgAUs6lHw" />
+    
+    <!-- Issue 2 & 7: Optimized Loading -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', { 'page_path': window.location.pathname });
+    </script>
     
     <!-- JSON-LD Schema Markup -->
     <script type="application/ld+json">
@@ -88,16 +115,16 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://allinone.tools/" />
-    <meta property="og:title" content="Allinone.tools | Free Online Utility Tools & Text Converter" />
-    <meta property="og:description" content="Free All-in-One online utility tools. Use our Text Converter, Image Placeholder, and secure developer utilities. No sign-up required." />
-    <meta property="og:image" content="https://picsum.photos/seed/allinone/1200/630" />
+    <meta property="og:title" content="Allinone.tools | Free Online Utility Hub & Privacy-First Tools" />
+    <meta property="og:description" content="Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing." />
+    <meta property="og:image" content="https://allinone.tools/og-image.png" />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://allinone.tools/" />
-    <meta property="twitter:title" content="Allinone.tools | Free Online Utility Tools" />
-    <meta property="twitter:description" content="Free All-in-One online utility tools. Fast, safe, and secure developer utilities." />
-    <meta property="twitter:image" content="https://picsum.photos/seed/allinone/1200/630" />
+    <meta property="twitter:title" content="Allinone.tools | Free Online Utility Hub & Privacy-First Tools" />
+    <meta property="twitter:description" content="Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing." />
+    <meta property="twitter:image" content="https://allinone.tools/og-image.png" />
   </head>
   <body>
     <div id="root">

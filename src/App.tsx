@@ -85,23 +85,50 @@ export default function App() {
     // Scroll to top on page change
     window.scrollTo(0, 0);
 
-    // Dynamic Title & Canonical Update
+    // Dynamic Title, Description & Social Meta Updates
     let title = 'Allinone.tools | Free Online Utility Hub & Privacy-First Tools';
+    let description = 'Free All-in-One online utility tools. Professional suite for PDF, Image, and Text utilities. 100% secure, local-first processing with no sign-up required.';
     let canonical = 'https://allinone.tools/';
 
     if (activeTool) {
       title = `${activeTool.name} | Allinone.tools`;
+      description = `Use our free, local-first ${activeTool.name} tool. ${activeTool.description} Secure and private utility for professional use.`;
       canonical = `https://allinone.tools/tool/${activeTool.id}`;
     } else if (currentPage === 'blog') {
       title = 'SEO & Productivity Blog | Allinone.tools';
+      description = 'Read the latest insights on SEO, digital productivity, and professional web utilities. Stay updated with Allinone.tools core guides.';
       canonical = 'https://allinone.tools/blog';
     } else if (currentPage !== 'home') {
       title = `${currentPage.charAt(0).toUpperCase() + currentPage.slice(1)} | Allinone.tools`;
+      description = `Learn more about Allinone.tools ${currentPage} page. We provide professional, privacy-first utility tools for daily use.`;
       canonical = `https://allinone.tools/${currentPage}`;
     }
 
+    // Apply basic metadata
     document.title = title;
     
+    // Update Meta Description
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', description);
+
+    // Fix Issue 1: Update Open Graph tags for branding consistency
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const ogDesc = document.querySelector('meta[property="og:description"]');
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    const twitterDesc = document.querySelector('meta[property="twitter:description"]');
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const twitterImage = document.querySelector('meta[property="twitter:image"]');
+
+    if (ogTitle) ogTitle.setAttribute('content', title);
+    if (ogDesc) ogDesc.setAttribute('content', description);
+    if (twitterTitle) twitterTitle.setAttribute('content', title);
+    if (twitterDesc) twitterDesc.setAttribute('content', description);
+    
+    // Fix Issue 2: Branded OG Image
+    const brandedImage = 'https://allinone.tools/og-image.png';
+    if (ogImage) ogImage.setAttribute('content', brandedImage);
+    if (twitterImage) twitterImage.setAttribute('content', brandedImage);
+
     // Update or create canonical tag
     let link: HTMLLinkElement | null = document.querySelector('link[rel="canonical"]');
     if (!link) {
@@ -315,16 +342,16 @@ export default function App() {
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="space-y-20"
+        className="space-y-20 tool-container"
       >
-        {/* Hero Section with H1 */}
-            <div className="text-center space-y-4">
-              <h1 className="text-4xl md:text-6xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-4xl mx-auto">
-                Free Online Utility Tools for Developers & Designers
+        {/* Fix Issue 6: SEO Optimized Heading Hierarchy (H1 & H2) */}
+            <div className="text-center space-y-4 px-4">
+              <h1 className="text-4xl md:text-7xl font-black text-[#1A1A3A] dark:text-white tracking-tighter leading-tight max-w-5xl mx-auto">
+                The Ultimate Free Online Utility Hub
               </h1>
-              <p className="text-slate-500 dark:text-slate-400 font-medium text-lg max-w-2xl mx-auto px-4">
-                Boost your productivity with our suite of 100% free online utility tools. From text conversion to image generation, everything is secure and local-first.
-              </p>
+              <h2 className="text-xl md:text-2xl text-slate-500 dark:text-slate-400 font-medium max-w-3xl mx-auto leading-relaxed">
+                Empowering developers and designers with 100+ private, local-first tools for PDF management, Image editing, and Text processing.
+              </h2>
             </div>
 
             {/* Marquee Section */}

@@ -27,6 +27,7 @@ export default function Blog() {
                 height="450"
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
+                loading="lazy"
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center">
